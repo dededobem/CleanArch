@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace CleanArch.View
+namespace CleanArch.Presentation
 {
     public class Program
     {

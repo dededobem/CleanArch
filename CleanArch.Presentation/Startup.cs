@@ -1,12 +1,12 @@
 using CleanArch.Infra.IoC;
+using CleanArch.Presentation.MappingConfig;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace CleanArch.View
+namespace CleanArch.Presentation
 {
     public class Startup
     {
@@ -19,9 +19,11 @@ namespace CleanArch.View
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddInfrastructure(Configuration);
+        {            
+            services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddInfrastructure(Configuration);
+            services.AddAutoMapperConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,11 +36,10 @@ namespace CleanArch.View
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -49,6 +50,9 @@ namespace CleanArch.View
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
