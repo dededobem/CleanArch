@@ -25,10 +25,10 @@ namespace CleanArch.Application.Services
             await _productRepository.Add(mapProduct);
         }
 
-        public async Task Delete(ProductViewModel product)
+        public async Task Delete(int? id)
         {
-            var mapProduct = _mapper.Map<Product>(product);
-            await _productRepository.Delete(mapProduct);
+            var result = await _productRepository.GetById(id);
+            await _productRepository.Delete(result);
         }
 
         public async Task<ProductViewModel> GetById(int? id)
